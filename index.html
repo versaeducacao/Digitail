@@ -506,7 +506,7 @@
 <!-- NAV -->
 <nav>
   <div class="logo"><span>D</span>igitail</div>
-  <button class="nav-btn" onclick="openModal('digitail')">Garanta seu acesso</button>
+  <button class="nav-btn" onclick="openModal('acesso_individual')">Garanta seu acesso</button>
 </nav>
 
 <!-- HERO -->
@@ -546,7 +546,7 @@
         <li>Entrevistas exclusivas pós-evento</li>
         <li>Conteúdos Bônus</li>
       </ul>
-      <button class="plan-cta" onclick="openModal('digitail')">Comprar agora</button>
+      <button class="plan-cta" onclick="openModal('acesso_individual')">Comprar agora</button>
     </div>
 
     <!-- Card 2: Gouvêa Pass (featured) -->
@@ -567,7 +567,7 @@
         <li>Acesso antecipado a novos conteúdos</li>
         <li>Comunidade exclusiva de líderes</li>
       </ul>
-      <button class="plan-cta" onclick="openModal('pass')">Agendar uma conversa</button>
+      <button class="plan-cta" onclick="openModal('acesso_gouvea')">Agendar uma conversa</button>
     </div>
 
   </div>
@@ -588,7 +588,7 @@
           <li>Relatórios de engajamento e progresso</li>
           <li>Onboarding e suporte dedicado</li>
         </ul>
-        <button class="pj-cta" onclick="openWhatsapp()">
+        <button class="pj-cta" onclick="openModal('acesso_b2b')">
           💬 Agendar uma reunião
         </button>
       </div>
@@ -634,20 +634,35 @@
   const SUPABASE_URL = 'https://pexenzdlbfgpaunsugek.supabase.co';
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBleGVuemRsYmZncGF1bnN1Z2VrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA1OTQ1MjQsImV4cCI6MjA5NjE3MDUyNH0.92F_Um7tVt17qpggms-Fo_BHBG15vS-YfCWdfWe4v2Q';
 
-  let currentPlan = 'digitail';
+  let currentPlan = 'acesso_individual';
 
   const plans = {
-    digitail: {
-      label: 'Evento Online',
+    acesso_individual: {
+      label: 'Acesso Individual',
       title: 'Digitail Conference',
       price: '<strong>R$ 98,00</strong> — pagamento único · 6 meses de acesso',
       redirect: 'https://www.asaas.com/c/eqpu9cxud1prefd2',
+      cpf: true,
+      pj: false,
+      btnLabel: 'Continuar para pagamento →',
     },
-    pass: {
-      label: 'Passaporte Anual',
+    acesso_gouvea: {
+      label: 'Gouvêa Pass',
       title: 'Gouvêa Pass',
       price: 'Sob Consulta',
       redirect: 'https://wa.me/5511999999999?text=Ol%C3%A1%2C%20tenho%20interesse%20no%20Gouv%C3%AAa%20Pass!',
+      cpf: false,
+      pj: false,
+      btnLabel: 'Agendar uma conversa →',
+    },
+    acesso_b2b: {
+      label: 'Acesso Corporativo',
+      title: 'Plano Empresarial',
+      price: 'Sob Consulta',
+      redirect: 'https://wa.me/5511999999999?text=Ol%C3%A1%2C%20tenho%20interesse%20no%20plano%20corporativo%20do%20Digitail!',
+      cpf: false,
+      pj: true,
+      btnLabel: 'Agendar uma reunião →',
     },
   };
 
@@ -671,13 +686,22 @@
           <label>WhatsApp</label>
           <input type="tel" id="f-tel" placeholder="(11) 99999-9999" autocomplete="tel" oninput="maskPhone(this)" />
         </div>
-        ${plan !== 'pass' ? `
+        ${p.cpf ? `
         <div class="form-group">
           <label>CPF</label>
           <input type="text" id="f-cpf" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)" />
         </div>` : ''}
+        ${p.pj ? `
+        <div class="form-group">
+          <label>Nome da empresa</label>
+          <input type="text" id="f-empresa" placeholder="Razão social ou nome fantasia" />
+        </div>
+        <div class="form-group">
+          <label>Número de colaboradores</label>
+          <input type="number" id="f-colaboradores" placeholder="Ex: 50" min="1" />
+        </div>` : ''}
       </div>
-      <button class="form-submit" onclick="submitForm()" id="btn-submit">${p.redirect ? 'Continuar para pagamento →' : 'Agendar uma conversa →'}</button>
+      <button class="form-submit" onclick="submitForm()" id="btn-submit">${p.btnLabel}</button>
       <p class="form-legal">🔒 Seus dados são <strong>estritamente confidenciais</strong> e utilizados apenas para habilitar seu acesso na plataforma de cursos. Não compartilhamos suas informações com terceiros.</p>
     `;
     document.getElementById('overlay').classList.add('open');
@@ -694,18 +718,19 @@
   }
 
   async function submitForm() {
-    const nome  = document.getElementById('f-nome')?.value.trim();
-    const email = document.getElementById('f-email')?.value.trim();
-    const tel   = document.getElementById('f-tel')?.value.trim();
-    const cpf   = document.getElementById('f-cpf')?.value.trim() ?? '';
-    const needsCpf = currentPlan !== 'pass';
+    const p       = plans[currentPlan];
+    const nome    = document.getElementById('f-nome')?.value.trim();
+    const email   = document.getElementById('f-email')?.value.trim();
+    const tel     = document.getElementById('f-tel')?.value.trim();
+    const cpf     = document.getElementById('f-cpf')?.value.trim() ?? '';
+    const empresa = document.getElementById('f-empresa')?.value.trim() ?? '';
+    const colab   = document.getElementById('f-colaboradores')?.value.trim() ?? '';
 
-    if (!nome || !email || !tel || (needsCpf && !cpf)) {
-      alert('Por favor, preencha todos os campos.');
-      return;
-    }
+    if (!nome || !email || !tel) { alert('Por favor, preencha todos os campos.'); return; }
+    if (p.cpf && !cpf) { alert('Por favor, preencha todos os campos.'); return; }
+    if (p.pj && (!empresa || !colab)) { alert('Por favor, preencha todos os campos.'); return; }
     if (!validateEmail(email)) { alert('E-mail inválido.'); return; }
-    if (needsCpf && cpf.replace(/\D/g,'').length !== 11) { alert('CPF inválido.'); return; }
+    if (p.cpf && cpf.replace(/\D/g,'').length !== 11) { alert('CPF inválido.'); return; }
 
     const btn = document.getElementById('btn-submit');
     btn.disabled = true;
@@ -725,7 +750,9 @@
           sobrenome: '',
           email,
           telefone: tel,
-          cpf: cpf || '',
+          cpf: cpf || null,
+          empresa: empresa || null,
+          num_colaboradores: colab || null,
           plano: currentPlan,
         }),
       });
@@ -733,16 +760,13 @@
       console.error('Supabase error:', e);
     }
 
-    const p = plans[currentPlan];
-    if (p.redirect) {
-      window.open(p.redirect, '_blank');
-    }
+    if (p.redirect) window.open(p.redirect, '_blank');
 
     document.getElementById('modal-content').innerHTML = `
       <div class="success-box">
         <div class="success-icon">🎉</div>
         <h3>Tudo certo!</h3>
-        <p>${currentPlan === 'digitail'
+        <p>${currentPlan === 'acesso_individual'
           ? `Uma nova aba foi aberta com o link de pagamento. Após confirmar, seu acesso será habilitado no e-mail <strong>${email}</strong>.`
           : `Recebemos seu contato! Em breve nossa equipe entrará em contato pelo WhatsApp <strong>${tel}</strong>.`
         }</p>
