@@ -67,7 +67,7 @@
     /* ── HERO ── */
     .hero {
       text-align: center;
-      padding: 80px 24px 64px;
+      padding: 72px 24px 48px;
       background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,230,118,.08) 0%, transparent 70%);
     }
 
@@ -99,80 +99,13 @@
       font-size: clamp(16px, 2vw, 19px);
       color: #bbb;
       max-width: 580px;
-      margin: 0 auto 40px;
+      margin: 0 auto 0;
       line-height: 1.6;
-    }
-
-    .hero-cta {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .btn-primary {
-      background: var(--green);
-      color: #000;
-      font-weight: 800;
-      font-size: 16px;
-      border: none;
-      border-radius: 50px;
-      padding: 16px 36px;
-      cursor: pointer;
-      transition: transform .15s, opacity .15s;
-    }
-    .btn-primary:hover { transform: translateY(-2px); opacity: .9; }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--text);
-      font-weight: 600;
-      font-size: 16px;
-      border: 1px solid var(--border);
-      border-radius: 50px;
-      padding: 16px 36px;
-      cursor: pointer;
-      transition: border-color .2s;
-    }
-    .btn-outline:hover { border-color: var(--green); color: var(--green); }
-
-    /* ── PILLS ── */
-    .pills {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      padding: 0 24px 72px;
-    }
-
-    .pill {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px 28px;
-      min-width: 170px;
-      text-align: center;
-    }
-    .pill strong {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--green);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    .pill span {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.4;
     }
 
     /* ── PLANS ── */
     .plans-section {
-      padding: 0 24px 80px;
+      padding: 48px 24px 80px;
       max-width: 1100px;
       margin: 0 auto;
     }
@@ -581,37 +514,10 @@
   <div class="badge">🎯 IA Aplicada · Conteúdo Online</div>
   <h1>Aprenda como a IA está <em>transformando</em> o varejo agora</h1>
   <p>Acesse todos os conteúdos do Digitail online — cases reais, implementações práticas e estratégias para vender mais, reduzir custos e acelerar resultados.</p>
-  <div class="hero-cta">
-    <button class="btn-primary" onclick="openModal('digitail')">Começar por R$ 98</button>
-    <button class="btn-outline" onclick="scrollToPlans()">Ver todos os planos</button>
-  </div>
 </section>
-
-<!-- PILLS -->
-<div class="pills">
-  <div class="pill">
-    <strong>Público qualificado</strong>
-    <span>Diretores e C-levels do setor</span>
-  </div>
-  <div class="pill">
-    <strong>Conteúdo aplicável</strong>
-    <span>Cases com foco em ROI real</span>
-  </div>
-  <div class="pill">
-    <strong>Acesso imediato</strong>
-    <span>6 meses de acesso completo</span>
-  </div>
-  <div class="pill">
-    <strong>IA sem hype</strong>
-    <span>Profundidade e aplicabilidade</span>
-  </div>
-</div>
 
 <!-- PLANS -->
 <section class="plans-section" id="plans">
-  <p class="section-label">Escolha seu plano</p>
-  <h2 class="section-title">Acesso ao <em>Digitail</em> do jeito certo</h2>
-  <p class="section-sub">Planos para pessoas físicas e para equipes corporativas</p>
 
   <!-- Toggle -->
   <div class="tab-toggle">
@@ -815,10 +721,6 @@
     document.getElementById('pj-plans').classList.toggle('hidden', tab !== 'pj');
     document.getElementById('tab-pf').classList.toggle('active', tab === 'pf');
     document.getElementById('tab-pj').classList.toggle('active', tab === 'pj');
-  }
-
-  function scrollToPlans() {
-    document.getElementById('plans').scrollIntoView({ behavior: 'smooth' });
   }
 
   function openWhatsapp() {
