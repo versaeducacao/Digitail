@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digitail — Acesso Online</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #00e676;
+      --green-dark: #00c853;
+      --bg: #0a0a0a;
+      --bg2: #111111;
+      --bg3: #161616;
+      --card: #1a1a1a;
+      --border: #2a2a2a;
+      --text: #ffffff;
+      --muted: #888888;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 48px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(10,10,10,0.95);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .logo span { color: var(--green); }
+
+    .nav-btn {
+      background: var(--green);
+      color: #000;
+      font-weight: 700;
+      font-size: 14px;
+      border: none;
+      border-radius: 50px;
+      padding: 10px 24px;
+      cursor: pointer;
+      transition: opacity .2s;
+    }
+    .nav-btn:hover { opacity: .85; }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      padding: 80px 24px 64px;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,230,118,.08) 0%, transparent 70%);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,230,118,.1);
+      border: 1px solid rgba(0,230,118,.3);
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 50px;
+      padding: 6px 16px;
+      margin-bottom: 28px;
+      letter-spacing: .5px;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 60px);
+      font-weight: 900;
+      line-height: 1.1;
+      max-width: 780px;
+      margin: 0 auto 20px;
+    }
+    .hero h1 em { color: var(--green); font-style: normal; }
+
+    .hero p {
+      font-size: clamp(16px, 2vw, 19px);
+      color: #bbb;
+      max-width: 580px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: #000;
+      font-weight: 800;
+      font-size: 16px;
+      border: none;
+      border-radius: 50px;
+      padding: 16px 36px;
+      cursor: pointer;
+      transition: transform .15s, opacity .15s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); opacity: .9; }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 16px;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 16px 36px;
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+    .btn-outline:hover { border-color: var(--green); color: var(--green); }
+
+    /* ── PILLS ── */
+    .pills {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 0 24px 72px;
+    }
+
+    .pill {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 28px;
+      min-width: 170px;
+      text-align: center;
+    }
+    .pill strong {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .pill span {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* ── PLANS ── */
+    .plans-section {
+      padding: 0 24px 80px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--green);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: clamp(26px, 4vw, 42px);
+      font-weight: 900;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+    .section-title em { color: var(--green); font-style: normal; }
+
+    .section-sub {
+      text-align: center;
+      color: var(--muted);
+      font-size: 16px;
+      margin-bottom: 48px;
+    }
+
+    .tab-toggle {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      margin-bottom: 40px;
+    }
+    .tab-toggle button {
+      background: var(--card);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 12px 28px;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .tab-toggle button:first-child { border-radius: 8px 0 0 8px; border-right: none; }
+    .tab-toggle button:last-child  { border-radius: 0 8px 8px 0; }
+    .tab-toggle button.active {
+      background: var(--green);
+      color: #000;
+      border-color: var(--green);
+    }
+
+    /* PF cards */
+    .pf-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .plan-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      position: relative;
+      transition: border-color .2s;
+    }
+    .plan-card:hover { border-color: rgba(0,230,118,.4); }
+    .plan-card.featured {
+      border-color: var(--green);
+      background: linear-gradient(160deg, #1a2a1a 0%, var(--card) 60%);
+    }
+
+    .featured-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--green);
+      color: #000;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 4px 18px;
+      border-radius: 50px;
+      letter-spacing: .5px;
+      white-space: nowrap;
+    }
+
+    .plan-tag {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--green);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .plan-name {
+      font-size: 22px;
+      font-weight: 800;
+      margin-top: 4px;
+    }
+
+    .plan-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.55;
+      margin-top: 6px;
+    }
+
+    .plan-price {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+    .price-from { font-size: 13px; color: var(--muted); }
+    .price-val { font-size: 42px; font-weight: 900; line-height: 1; }
+    .price-period { font-size: 14px; color: var(--muted); }
+
+    .plan-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .plan-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: #ccc;
+    }
+    .plan-features li::before {
+      content: '✓';
+      color: var(--green);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .plan-cta {
+      width: 100%;
+      background: var(--green);
+      color: #000;
+      font-weight: 800;
+      font-size: 15px;
+      border: none;
+      border-radius: 12px;
+      padding: 16px;
+      cursor: pointer;
+      transition: opacity .2s, transform .15s;
+      margin-top: auto;
+    }
+    .plan-cta:hover { opacity: .9; transform: translateY(-1px); }
+    .plan-cta.outline {
+      background: transparent;
+      color: var(--green);
+      border: 2px solid var(--green);
+    }
+    .plan-cta.outline:hover { background: rgba(0,230,118,.08); }
+
+    /* PJ */
+    .pj-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .pj-title { font-size: 28px; font-weight: 900; margin-bottom: 12px; }
+    .pj-title em { color: var(--green); font-style: normal; }
+
+    .pj-desc { color: #bbb; font-size: 15px; line-height: 1.65; margin-bottom: 24px; }
+
+    .pj-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+    .pj-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: #ccc;
+    }
+    .pj-features li::before {
+      content: '✓';
+      color: var(--green);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .pj-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--green);
+      color: #000;
+      font-weight: 800;
+      font-size: 16px;
+      border: none;
+      border-radius: 50px;
+      padding: 16px 32px;
+      cursor: pointer;
+      transition: opacity .2s;
+    }
+    .pj-cta:hover { opacity: .88; }
+
+    .pj-visual {
+      background: linear-gradient(135deg, #111 0%, #0d1a0d 100%);
+      border: 1px solid rgba(0,230,118,.2);
+      border-radius: 16px;
+      padding: 36px;
+      text-align: center;
+    }
+    .pj-visual .pj-icon { font-size: 56px; margin-bottom: 16px; }
+    .pj-visual h3 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .pj-visual p { font-size: 14px; color: var(--muted); line-height: 1.5; }
+
+    .pj-stats {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 28px;
+    }
+    .pj-stat {
+      text-align: center;
+      background: rgba(0,230,118,.06);
+      border: 1px solid rgba(0,230,118,.15);
+      border-radius: 10px;
+      padding: 16px 20px;
+    }
+    .pj-stat strong { display: block; font-size: 22px; font-weight: 900; color: var(--green); }
+    .pj-stat span { font-size: 12px; color: var(--muted); }
+
+    /* hidden */
+    .hidden { display: none !important; }
+
+    /* ── MODAL / FORM OVERLAY ── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.85);
+      backdrop-filter: blur(6px);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s;
+    }
+    .overlay.open { opacity: 1; pointer-events: auto; }
+
+    .modal {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 48px;
+      width: 100%;
+      max-width: 520px;
+      position: relative;
+      transform: translateY(20px);
+      transition: transform .25s;
+    }
+    .overlay.open .modal { transform: translateY(0); }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 22px;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .modal-close:hover { color: var(--text); }
+
+    .modal-plan-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--green);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .modal-title { font-size: 26px; font-weight: 900; margin-bottom: 4px; }
+    .modal-price { font-size: 15px; color: var(--muted); margin-bottom: 28px; }
+    .modal-price strong { color: var(--text); }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .form-group.full { grid-column: 1 / -1; }
+
+    .form-group label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .8px;
+    }
+
+    .form-group input {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      padding: 14px 16px;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .form-group input:focus { border-color: var(--green); }
+    .form-group input::placeholder { color: #444; }
+
+    .form-submit {
+      width: 100%;
+      background: var(--green);
+      color: #000;
+      font-weight: 800;
+      font-size: 16px;
+      border: none;
+      border-radius: 12px;
+      padding: 18px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: opacity .2s;
+    }
+    .form-submit:hover { opacity: .9; }
+
+    .form-legal {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 14px;
+      line-height: 1.5;
+    }
+
+    /* ── SUCCESS ── */
+    .success-box {
+      text-align: center;
+      padding: 24px 0;
+    }
+    .success-icon { font-size: 64px; margin-bottom: 20px; }
+    .success-box h3 { font-size: 24px; font-weight: 900; margin-bottom: 10px; }
+    .success-box p { color: var(--muted); font-size: 15px; line-height: 1.6; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    footer p { font-size: 13px; color: var(--muted); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .hero { padding: 60px 20px 48px; }
+      .pj-card { grid-template-columns: 1fr; gap: 32px; }
+      footer { padding: 24px 20px; flex-direction: column; text-align: center; }
+      .modal { padding: 32px 24px; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo"><span>D</span>igitail</div>
+  <button class="nav-btn" onclick="openModal('digitail')">Garanta seu acesso</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="badge">🎯 IA Aplicada · Conteúdo Online</div>
+  <h1>Aprenda como a IA está <em>transformando</em> o varejo agora</h1>
+  <p>Acesse todos os conteúdos do Digitail online — cases reais, implementações práticas e estratégias para vender mais, reduzir custos e acelerar resultados.</p>
+  <div class="hero-cta">
+    <button class="btn-primary" onclick="openModal('digitail')">Começar por R$ 98</button>
+    <button class="btn-outline" onclick="scrollToPlans()">Ver todos os planos</button>
+  </div>
+</section>
+
+<!-- PILLS -->
+<div class="pills">
+  <div class="pill">
+    <strong>Público qualificado</strong>
+    <span>Diretores e C-levels do setor</span>
+  </div>
+  <div class="pill">
+    <strong>Conteúdo aplicável</strong>
+    <span>Cases com foco em ROI real</span>
+  </div>
+  <div class="pill">
+    <strong>Acesso imediato</strong>
+    <span>6 meses de acesso completo</span>
+  </div>
+  <div class="pill">
+    <strong>IA sem hype</strong>
+    <span>Profundidade e aplicabilidade</span>
+  </div>
+</div>
+
+<!-- PLANS -->
+<section class="plans-section" id="plans">
+  <p class="section-label">Escolha seu plano</p>
+  <h2 class="section-title">Acesso ao <em>Digitail</em> do jeito certo</h2>
+  <p class="section-sub">Planos para pessoas físicas e para equipes corporativas</p>
+
+  <!-- Toggle -->
+  <div class="tab-toggle">
+    <button class="active" id="tab-pf" onclick="switchTab('pf')">Pessoa Física</button>
+    <button id="tab-pj" onclick="switchTab('pj')">Pessoa Jurídica</button>
+  </div>
+
+  <!-- PF Plans -->
+  <div id="pf-plans" class="pf-grid">
+
+    <!-- Card 1: Digitail -->
+    <div class="plan-card">
+      <div>
+        <p class="plan-tag">Evento Online</p>
+        <h3 class="plan-name">Digitail Conference</h3>
+        <p class="plan-desc">Acesso a todos os conteúdos gravados do Digitail — palestras, painéis e cases completos de IA aplicada ao varejo.</p>
+      </div>
+      <div class="plan-price">
+        <span class="price-from">por</span>
+        <span class="price-val">R$&nbsp;98</span>
+        <span class="price-period">pagamento único</span>
+      </div>
+      <ul class="plan-features">
+        <li>Acesso completo por 6 meses</li>
+        <li>Todos os conteúdos gravados do evento</li>
+        <li>Cases reais com início, meio e fim</li>
+        <li>Palestras de executivos e especialistas em IA</li>
+      </ul>
+      <button class="plan-cta" onclick="openModal('digitail')">Quero este plano</button>
+    </div>
+
+    <!-- Card 2: Gouvêa Pass (featured) -->
+    <div class="plan-card featured">
+      <div class="featured-badge">MAIS VANTAJOSO</div>
+      <div>
+        <p class="plan-tag">Passaporte Anual</p>
+        <h3 class="plan-name">Gouvêa Pass</h3>
+        <p class="plan-desc">Um passaporte para todos os eventos da Gouvêa Experience durante o ano, com acesso prioritário e descontos exclusivos.</p>
+      </div>
+      <div class="plan-price">
+        <span class="price-from">a partir de</span>
+        <span class="price-val">R$&nbsp;297</span>
+        <span class="price-period">/ ano</span>
+      </div>
+      <ul class="plan-features">
+        <li>Acesso a todos os eventos da Gouvêa Experience</li>
+        <li>Digitail + todos os próximos eventos do ano</li>
+        <li>Desconto exclusivo para assinantes Pass</li>
+        <li>Acesso antecipado a novos conteúdos</li>
+        <li>Comunidade exclusiva de líderes</li>
+      </ul>
+      <button class="plan-cta" onclick="openModal('pass')">Assinar o Gouvêa Pass</button>
+    </div>
+
+  </div>
+
+  <!-- PJ Plan -->
+  <div id="pj-plans" class="hidden">
+    <div class="pj-card">
+      <div>
+        <h3 class="pj-title">Capacite todo o seu <em>time</em></h3>
+        <p class="pj-desc">
+          Ofereça à sua equipe acesso aos conteúdos dos eventos da Gouvêa Experience, além de cursos exclusivos de formação de líderes da <strong>Friedman</strong> e capacitação dos times de loja — tudo em um único plano corporativo.
+        </p>
+        <ul class="pj-features">
+          <li>Acesso ilimitado para toda a equipe</li>
+          <li>Conteúdos de todos os eventos da Gouvêa Experience</li>
+          <li>Cursos de formação de líderes (Friedman)</li>
+          <li>Capacitação dos times de loja</li>
+          <li>Relatórios de engajamento e progresso</li>
+          <li>Onboarding e suporte dedicado</li>
+        </ul>
+        <button class="pj-cta" onclick="openWhatsapp()">
+          💬 Converse com nosso time
+        </button>
+      </div>
+      <div class="pj-visual">
+        <div class="pj-icon">🏢</div>
+        <h3>Plano Corporativo</h3>
+        <p>Solução personalizada para o tamanho e as necessidades da sua empresa.</p>
+        <div class="pj-stats">
+          <div class="pj-stat">
+            <strong>+50</strong>
+            <span>Empresas</span>
+          </div>
+          <div class="pj-stat">
+            <strong>+3k</strong>
+            <span>Colaboradores</span>
+          </div>
+          <div class="pj-stat">
+            <strong>100%</strong>
+            <span>Online</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo"><span>D</span>igitail</div>
+  <p>© 2025 Gouvêa Experience. Todos os direitos reservados.</p>
+  <p style="font-size:12px;">Dúvidas? <a href="mailto:contato@gouveaexperience.com.br" style="color:var(--green);text-decoration:none;">contato@gouveaexperience.com.br</a></p>
+</footer>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script>
+  let currentPlan = 'digitail';
+
+  const plans = {
+    digitail: {
+      label: 'Evento Online',
+      title: 'Digitail Conference',
+      price: '<strong>R$ 98,00</strong> — pagamento único · 6 meses de acesso',
+    },
+    pass: {
+      label: 'Passaporte Anual',
+      title: 'Gouvêa Pass',
+      price: 'A partir de <strong>R$ 297,00/ano</strong> — todos os eventos da Gouvêa',
+    },
+  };
+
+  function openModal(plan) {
+    currentPlan = plan;
+    const p = plans[plan];
+    document.getElementById('modal-content').innerHTML = `
+      <p class="modal-plan-label">${p.label}</p>
+      <h2 class="modal-title">${p.title}</h2>
+      <p class="modal-price">${p.price}</p>
+      <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div class="form-group">
+          <label>Nome</label>
+          <input type="text" id="f-nome" placeholder="Seu nome" autocomplete="given-name" />
+        </div>
+        <div class="form-group">
+          <label>Sobrenome</label>
+          <input type="text" id="f-sobrenome" placeholder="Seu sobrenome" autocomplete="family-name" />
+        </div>
+        <div class="form-group">
+          <label>E-mail</label>
+          <input type="email" id="f-email" placeholder="voce@email.com" autocomplete="email" />
+        </div>
+        <div class="form-group">
+          <label>WhatsApp</label>
+          <input type="tel" id="f-tel" placeholder="(11) 99999-9999" autocomplete="tel" oninput="maskPhone(this)" />
+        </div>
+        <div class="form-group" style="grid-column:1/-1;">
+          <label>CPF</label>
+          <input type="text" id="f-cpf" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)" />
+        </div>
+      </div>
+      <button class="form-submit" onclick="submitForm()">Finalizar cadastro →</button>
+      <p class="form-legal">Seus dados são protegidos conforme a LGPD. Ao continuar, você concorda com nossos termos de uso.</p>
+    `;
+    document.getElementById('overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('overlay')) closeModal();
+  }
+
+  function submitForm() {
+    const nome     = document.getElementById('f-nome')?.value.trim();
+    const sobre    = document.getElementById('f-sobrenome')?.value.trim();
+    const email    = document.getElementById('f-email')?.value.trim();
+    const tel      = document.getElementById('f-tel')?.value.trim();
+    const cpf      = document.getElementById('f-cpf')?.value.trim();
+
+    if (!nome || !sobre || !email || !tel || !cpf) {
+      alert('Por favor, preencha todos os campos.');
+      return;
+    }
+    if (!validateEmail(email)) { alert('E-mail inválido.'); return; }
+    if (cpf.replace(/\D/g,'').length !== 11) { alert('CPF inválido.'); return; }
+
+    document.getElementById('modal-content').innerHTML = `
+      <div class="success-box">
+        <div class="success-icon">🎉</div>
+        <h3>Cadastro realizado!</h3>
+        <p>Em instantes você receberá um e-mail em <strong>${email}</strong> com o link de pagamento e acesso aos conteúdos do Digitail.</p>
+      </div>
+    `;
+  }
+
+  function switchTab(tab) {
+    document.getElementById('pf-plans').classList.toggle('hidden', tab !== 'pf');
+    document.getElementById('pj-plans').classList.toggle('hidden', tab !== 'pj');
+    document.getElementById('tab-pf').classList.toggle('active', tab === 'pf');
+    document.getElementById('tab-pj').classList.toggle('active', tab === 'pj');
+  }
+
+  function scrollToPlans() {
+    document.getElementById('plans').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function openWhatsapp() {
+    window.open('https://wa.me/5511999999999?text=Ol%C3%A1%2C%20tenho%20interesse%20no%20plano%20corporativo%20do%20Digitail!', '_blank');
+  }
+
+  function validateEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+
+  function maskPhone(el) {
+    let v = el.value.replace(/\D/g,'').slice(0,11);
+    if (v.length > 6) v = '(' + v.slice(0,2) + ') ' + v.slice(2,7) + '-' + v.slice(7);
+    else if (v.length > 2) v = '(' + v.slice(0,2) + ') ' + v.slice(2);
+    else if (v.length > 0) v = '(' + v;
+    el.value = v;
+  }
+
+  function maskCPF(el) {
+    let v = el.value.replace(/\D/g,'').slice(0,11);
+    if (v.length > 9) v = v.slice(0,3)+'.'+v.slice(3,6)+'.'+v.slice(6,9)+'-'+v.slice(9);
+    else if (v.length > 6) v = v.slice(0,3)+'.'+v.slice(3,6)+'.'+v.slice(6);
+    else if (v.length > 3) v = v.slice(0,3)+'.'+v.slice(3);
+    el.value = v;
+  }
+</script>
+</body>
+</html>
