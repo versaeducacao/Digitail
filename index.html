@@ -567,7 +567,7 @@
         <li>Acesso antecipado a novos conteúdos</li>
         <li>Comunidade exclusiva de líderes</li>
       </ul>
-      <button class="plan-cta" onclick="openWhatsapp()">Agendar uma conversa</button>
+      <button class="plan-cta" onclick="openModal('pass')">Agendar uma conversa</button>
     </div>
 
   </div>
@@ -647,7 +647,7 @@
       label: 'Passaporte Anual',
       title: 'Gouvêa Pass',
       price: 'Sob Consulta',
-      redirect: null,
+      redirect: 'https://wa.me/5511999999999?text=Ol%C3%A1%2C%20tenho%20interesse%20no%20Gouv%C3%AAa%20Pass!',
     },
   };
 
@@ -671,12 +671,13 @@
           <label>WhatsApp</label>
           <input type="tel" id="f-tel" placeholder="(11) 99999-9999" autocomplete="tel" oninput="maskPhone(this)" />
         </div>
+        ${plan !== 'pass' ? `
         <div class="form-group">
           <label>CPF</label>
           <input type="text" id="f-cpf" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)" />
-        </div>
+        </div>` : ''}
       </div>
-      <button class="form-submit" onclick="submitForm()" id="btn-submit">${p.redirect ? 'Continuar para pagamento →' : 'Enviar →'}</button>
+      <button class="form-submit" onclick="submitForm()" id="btn-submit">${p.redirect ? 'Continuar para pagamento →' : 'Agendar uma conversa →'}</button>
       <p class="form-legal">🔒 Seus dados são <strong>estritamente confidenciais</strong> e utilizados apenas para habilitar seu acesso na plataforma de cursos. Não compartilhamos suas informações com terceiros.</p>
     `;
     document.getElementById('overlay').classList.add('open');
@@ -696,14 +697,15 @@
     const nome  = document.getElementById('f-nome')?.value.trim();
     const email = document.getElementById('f-email')?.value.trim();
     const tel   = document.getElementById('f-tel')?.value.trim();
-    const cpf   = document.getElementById('f-cpf')?.value.trim();
+    const cpf   = document.getElementById('f-cpf')?.value.trim() ?? '';
+    const needsCpf = currentPlan !== 'pass';
 
-    if (!nome || !email || !tel || !cpf) {
+    if (!nome || !email || !tel || (needsCpf && !cpf)) {
       alert('Por favor, preencha todos os campos.');
       return;
     }
     if (!validateEmail(email)) { alert('E-mail inválido.'); return; }
-    if (cpf.replace(/\D/g,'').length !== 11) { alert('CPF inválido.'); return; }
+    if (needsCpf && cpf.replace(/\D/g,'').length !== 11) { alert('CPF inválido.'); return; }
 
     const btn = document.getElementById('btn-submit');
     btn.disabled = true;
@@ -723,7 +725,7 @@
           sobrenome: '',
           email,
           telefone: tel,
-          cpf,
+          cpf: cpf || '',
           plano: currentPlan,
         }),
       });
@@ -740,7 +742,7 @@
       <div class="success-box">
         <div class="success-icon">🎉</div>
         <h3>Tudo certo!</h3>
-        <p>${p.redirect
+        <p>${currentPlan === 'digitail'
           ? `Uma nova aba foi aberta com o link de pagamento. Após confirmar, seu acesso será habilitado no e-mail <strong>${email}</strong>.`
           : `Recebemos seu contato! Em breve nossa equipe entrará em contato pelo WhatsApp <strong>${tel}</strong>.`
         }</p>
