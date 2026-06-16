@@ -737,17 +737,11 @@
     btn.textContent = 'Salvando...';
 
     try {
-      await fetch(`${SUPABASE_URL}/rest/v1/leads?schema=digitail`, {
+      await fetch(`${SUPABASE_URL}/functions/v1/submit-lead`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': SUPABASE_KEY,
-          'Authorization': `Bearer ${SUPABASE_KEY}`,
-          'Prefer': 'return=minimal',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           nome,
-          sobrenome: '',
           email,
           telefone: tel,
           cpf: cpf || null,
